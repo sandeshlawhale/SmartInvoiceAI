@@ -119,13 +119,23 @@ export default function InvoiceReaderPage() {
 
   return (
     <DashboardLayout>
-      <div className="space-y-6">
+      <div className="space-y-6 relative">
+        {/* Coming Soon Overlay */}
+        <div className="absolute inset-0 z-50 flex items-center justify-center bg-background/60 backdrop-blur-sm rounded-lg">
+          <div className="text-center space-y-2">
+            <h2 className="text-4xl font-bold tracking-tight">Coming Soon</h2>
+            <p className="text-muted-foreground text-lg">
+              We are working hard to bring you this feature.
+            </p>
+          </div>
+        </div>
+
         <div>
           <h1 className="text-3xl font-bold">Invoice Reader</h1>
           <p className="text-muted-foreground">Upload and extract invoice data using OCR + AI</p>
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 opacity-50 pointer-events-none select-none">
           <Card>
             <CardHeader>
               <CardTitle className="flex items-center gap-2">

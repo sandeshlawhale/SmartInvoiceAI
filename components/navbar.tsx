@@ -2,12 +2,13 @@ import React from "react";
 import { useTheme } from "next-themes";
 import { Button } from "@/components/ui/button";
 import { Moon, Sun } from "lucide-react";
+import { Card } from "@/components/ui/card";
 
 export function Navbar() {
   const { setTheme, theme } = useTheme();
 
   return (
-    <div className="flex h-16 items-center justify-between border-b bg-background px-6">
+    <Card className="flex h-16 items-center justify-between px-6 shrink-0">
       <div className="flex items-center gap-4">
         {/* Left side content if any */}
       </div>
@@ -22,6 +23,6 @@ export function Navbar() {
           <span className="sr-only">Toggle theme</span>
         </Button>
       </div>
-    </div>
+    </Card>
   );
 }
