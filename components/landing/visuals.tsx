@@ -1,26 +1,52 @@
+"use client";
+
+import { useRef, useState } from "react";
+import { Play, Pause } from "lucide-react";
+
 export function Visuals() {
+    const videoRef = useRef<HTMLVideoElement>(null);
+    const [isPlaying, setIsPlaying] = useState(true); // Auto-plays by default
+
+    const togglePlay = () => {
+        if (videoRef.current) {
+            if (isPlaying) {
+                videoRef.current.pause();
+            } else {
+                videoRef.current.play();
+            }
+            setIsPlaying(!isPlaying);
+        }
+    };
+
     return (
         <section className="pt-0 pb-12">
             <div className="container max-w-6xl mx-auto">
-                <div className="relative rounded-xl border bg-card shadow-2xl overflow-hidden aspect-video md:aspect-[21/9]">
-                    {/* Placeholder for Video/Screenshot */}
-                    <div className="absolute inset-0 bg-gradient-to-br from-muted/50 to-muted flex items-center justify-center">
-                        <div className="text-center space-y-4">
-                            <div className="w-20 h-20 bg-background rounded-full flex items-center justify-center mx-auto shadow-lg">
-                                <div className="w-0 h-0 border-t-[15px] border-t-transparent border-l-[25px] border-l-primary border-b-[15px] border-b-transparent ml-2" />
-                            </div>
-                            <p className="text-muted-foreground font-medium">Watch how it works</p>
+                <div
+                    className="relative rounded-xl border bg-card shadow-2xl overflow-hidden aspect-video md:aspect-[21/9] cursor-pointer group"
+                    onClick={togglePlay}
+                >
+                    <video
+                        ref={videoRef}
+                        className="w-full h-full object-cover"
+                        autoPlay
+                        muted
+                        loop
+                        playsInline
+                    >
+                        <source src="/videos/SmartInvoiceAI_Tutorial.mp4" type="video/mp4" />
+                        Your browser does not support the video tag.
+                    </video>
+
+                    {/* Play/Pause Overlay */}
+                    <div className={`absolute inset-0 bg-black/20 flex items-center justify-center transition-opacity duration-300 ${isPlaying ? 'opacity-0 group-hover:opacity-100' : 'opacity-100'}`}>
+                        <div className="w-20 h-20 bg-background/80 backdrop-blur-sm rounded-full flex items-center justify-center shadow-lg transform transition-transform duration-300 hover:scale-110">
+                            {isPlaying ? (
+                                <Pause className="w-8 h-8 text-primary fill-primary" />
+                            ) : (
+                                <Play className="w-8 h-8 text-primary fill-primary ml-1" />
+                            )}
                         </div>
                     </div>
-
-                    {/* Overlay to indicate "half visible" or cut off if needed, 
-              but for now we just show a nice container. 
-              The user asked for "show only half this makes user to scroll further".
-              We can achieve this by adding a gradient mask at the bottom if it was a long list,
-              but for a video container, maybe they mean it's positioned such that it's cut off by the fold?
-              Or maybe just a stylistic choice. 
-              Let's add a subtle gradient at the bottom to blend it if it were long content.
-          */}
                 </div>
             </div>
         </section>

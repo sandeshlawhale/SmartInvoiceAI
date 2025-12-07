@@ -5,7 +5,17 @@ import { motion } from "framer-motion";
 import Image from "next/image";
 import { cn } from "@/lib/utils";
 
+import { useTheme } from "next-themes";
+import { useEffect, useState } from "react";
+
 export function HowItWorks() {
+    const { theme } = useTheme();
+    const [mounted, setMounted] = useState(false);
+
+    useEffect(() => {
+        setMounted(true);
+    }, []);
+
     return (
         <section id="how-it-works" className="py-24 px-4">
             <div className="container max-w-6xl mx-auto">
@@ -40,13 +50,30 @@ export function HowItWorks() {
                             </div>
 
                             <div className="flex-1 w-full">
-                                <div className="relative aspect-video rounded-xl overflow-hidden border bg-muted shadow-xl">
-                                    {/* Placeholder for actual image */}
-                                    <div className="absolute inset-0 flex items-center justify-center bg-gradient-to-br from-muted to-card">
-                                        <p className="text-muted-foreground font-medium">
-                                            {step.title} Preview
-                                        </p>
-                                    </div>
+                                <div className="relative aspect-video rounded-xl overflow-hidden border bg-muted shadow-xl group">
+                                    {mounted && (
+                                        <>
+                                            <Image
+                                                src={step.imageLight}
+                                                alt={`${step.title} Light Mode`}
+                                                fill
+                                                className={cn(
+                                                    "object-cover transition-opacity duration-500",
+                                                    theme === "dark" ? "opacity-0" : "opacity-100"
+                                                )}
+                                            />
+                                            <Image
+                                                src={step.imageDark}
+                                                alt={`${step.title} Dark Mode`}
+                                                fill
+                                                className={cn(
+                                                    "object-cover transition-opacity duration-500 absolute inset-0",
+                                                    theme === "dark" ? "opacity-100" : "opacity-0"
+                                                )}
+                                            />
+                                        </>
+                                    )}
+                                    {/* Fallback/Loading state could go here */}
                                 </div>
                             </div>
                         </motion.div>
