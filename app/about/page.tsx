@@ -1,14 +1,15 @@
 "use client";
 
+import React from "react";
+
 import { Navbar } from "@/components/landing/navbar";
 import { Footer } from "@/components/landing/footer";
 import { about } from "@/constants/about";
 import { motion } from "framer-motion";
-import { CheckCircle2, Mail, ArrowRight, Github, Linkedin, Globe } from "lucide-react";
-import Image from "next/image";
+import { CheckCircle2, Mail, Github, Linkedin, Globe } from "lucide-react";
 import Link from "next/link";
 
-const iconMap: { [key: string]: any } = {
+const iconMap: { [key: string]: React.ElementType } = {
     Mail,
     Github,
     Linkedin,
@@ -115,7 +116,7 @@ export default function AboutPage() {
                 <section className="py-12 px-4 bg-background">
                     <div className="relative container max-w-4xl mx-auto text-center">
                         <div className="absolute text-primary/10 top-0 left-0 rotate-180">
-                            <svg xmlns="http://www.w3.org/2000/svg" className="w-[12vw]" viewBox="0 0 24 24" fill="currentColor" class="icon icon-tabler icons-tabler-filled icon-tabler-quote"><path stroke="none" d="M0 0h24v24H0z" fill="none" /><path d="M9 5a2 2 0 0 1 2 2v6c0 3.13 -1.65 5.193 -4.757 5.97a1 1 0 1 1 -.486 -1.94c2.227 -.557 3.243 -1.827 3.243 -4.03v-1h-3a2 2 0 0 1 -1.995 -1.85l-.005 -.15v-3a2 2 0 0 1 2 -2z" /><path d="M18 5a2 2 0 0 1 2 2v6c0 3.13 -1.65 5.193 -4.757 5.97a1 1 0 1 1 -.486 -1.94c2.227 -.557 3.243 -1.827 3.243 -4.03v-1h-3a2 2 0 0 1 -1.995 -1.85l-.005 -.15v-3a2 2 0 0 1 2 -2z" /></svg>
+                            <svg xmlns="http://www.w3.org/2000/svg" className="w-[12vw]" viewBox="0 0 24 24" fill="currentColor"><path stroke="none" d="M0 0h24v24H0z" fill="none" /><path d="M9 5a2 2 0 0 1 2 2v6c0 3.13 -1.65 5.193 -4.757 5.97a1 1 0 1 1 -.486 -1.94c2.227 -.557 3.243 -1.827 3.243 -4.03v-1h-3a2 2 0 0 1 -1.995 -1.85l-.005 -.15v-3a2 2 0 0 1 2 -2z" /><path d="M18 5a2 2 0 0 1 2 2v6c0 3.13 -1.65 5.193 -4.757 5.97a1 1 0 1 1 -.486 -1.94c2.227 -.557 3.243 -1.827 3.243 -4.03v-1h-3a2 2 0 0 1 -1.995 -1.85l-.005 -.15v-3a2 2 0 0 1 2 -2z" /></svg>
                         </div>
                         <motion.div
                             initial={{ opacity: 0, scale: 0.95 }}
@@ -172,7 +173,7 @@ export default function AboutPage() {
                                     {about.creator.description}
                                 </div>
                                 <div className="flex gap-4 mt-4">
-                                    {about.creator.socials.map((social: any, index: number) => {
+                                    {about.creator.socials.map((social: { name: string; href: string; icon: string }, index: number) => {
                                         const Icon = iconMap[social.icon];
                                         return (
                                             <Link

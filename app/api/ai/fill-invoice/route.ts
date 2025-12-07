@@ -117,7 +117,7 @@ Return ONLY valid JSON in this exact format:
 
     // Match products with existing products
     if (parsedData.products) {
-      parsedData.products = parsedData.products.map((product: any) => {
+      parsedData.products = parsedData.products.map((product: { name: string; price: number; gst: number; hsnCode?: string }) => {
         const matchingProduct = products.find(
           (p) => p.name.toLowerCase() === product.name.toLowerCase()
         );
@@ -134,10 +134,11 @@ Return ONLY valid JSON in this exact format:
     }
 
     return NextResponse.json(parsedData, { status: 200 });
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error("AI fill-invoice error:", error);
+    const errorMessage = error instanceof Error ? error.message : "Internal server error";
     return NextResponse.json(
-      { error: error.message || "Internal server error" },
+      { error: errorMessage },
       { status: 500 }
     );
   }

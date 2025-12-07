@@ -4,7 +4,7 @@ import { authOptions } from "@/lib/auth";
 import { connectDB } from "@/lib/db";
 import CompanyProfile from "@/models/CompanyProfile";
 
-export async function GET(request: NextRequest) {
+export async function GET() {
   try {
     const session = await getServerSession(authOptions);
 
@@ -17,10 +17,11 @@ export async function GET(request: NextRequest) {
     const profile = await CompanyProfile.findOne({ userId: session.user.id });
 
     return NextResponse.json(profile || null, { status: 200 });
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error("Get company profile error:", error);
+    const errorMessage = error instanceof Error ? error.message : "Internal server error";
     return NextResponse.json(
-      { error: error.message || "Internal server error" },
+      { error: errorMessage },
       { status: 500 }
     );
   }
@@ -79,10 +80,12 @@ export async function POST(request: NextRequest) {
     );
 
     return NextResponse.json(profile, { status: 200 });
-  } catch (error: any) {
+    return NextResponse.json(profile, { status: 200 });
+  } catch (error: unknown) {
     console.error("Update company profile error:", error);
+    const errorMessage = error instanceof Error ? error.message : "Internal server error";
     return NextResponse.json(
-      { error: error.message || "Internal server error" },
+      { error: errorMessage },
       { status: 500 }
     );
   }

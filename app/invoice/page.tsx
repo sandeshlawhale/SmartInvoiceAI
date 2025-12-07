@@ -25,7 +25,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { formatCurrency, formatDate } from "@/lib/utils";
 import { useToast } from "@/hooks/use-toast";
 import { Eye, Edit, Trash2, Download } from "lucide-react";
-import type { Invoice } from "@/types";
+import type { Invoice, Seller } from "@/types";
 import jsPDF from "jspdf";
 import html2canvas from "html2canvas";
 
@@ -56,19 +56,21 @@ export default function InvoiceTrackerPage() {
   const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
   const [invoiceToDelete, setInvoiceToDelete] = useState<string | null>(null);
   const [downloadingInvoice, setDownloadingInvoice] = useState<Invoice | null>(null);
-  const [defaultSeller, setDefaultSeller] = useState<any>(null);
+  const [defaultSeller, setDefaultSeller] = useState<Seller | null>(null);
   const downloadRef = useRef<HTMLDivElement>(null);
   const { toast } = useToast();
 
   useEffect(() => {
     fetchInvoices();
     fetchDefaultSeller();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [statusFilter]);
 
   useEffect(() => {
     if (downloadingInvoice && downloadRef.current) {
       generatePDF();
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [downloadingInvoice]);
 
   const fetchDefaultSeller = async () => {
@@ -76,7 +78,7 @@ export default function InvoiceTrackerPage() {
       const response = await fetch("/api/sellers");
       if (response.ok) {
         const sellers = await response.json();
-        const defaultS = sellers.find((s: any) => s.isDefault) || sellers[0];
+        const defaultS = sellers.find((s: Seller) => s.isDefault) || sellers[0];
         setDefaultSeller(defaultS);
       }
     } catch (error) {
@@ -124,7 +126,7 @@ export default function InvoiceTrackerPage() {
       } else {
         throw new Error("Failed to delete invoice");
       }
-    } catch (error) {
+    } catch {
       toast({
         title: "Error",
         description: "Failed to delete invoice",
@@ -157,7 +159,6 @@ export default function InvoiceTrackerPage() {
 
       const pdf = new jsPDF("p", "mm", "a5");
       const pdfWidth = pdf.internal.pageSize.getWidth();
-      const pdfHeight = pdf.internal.pageSize.getHeight();
 
       const imgWidth = canvas.width;
       const imgHeight = canvas.height;
@@ -186,7 +187,7 @@ export default function InvoiceTrackerPage() {
   const handleStatusChange = async (id: string, newStatus: string) => {
     try {
       // Optimistic update
-      setInvoices(invoices.map(inv => inv._id === id ? { ...inv, status: newStatus as any } : inv));
+      setInvoices(invoices.map(inv => inv._id === id ? { ...inv, status: newStatus as Invoice['status'] } : inv));
 
       const response = await fetch(`/api/invoices/${id}`, {
         method: "PUT",

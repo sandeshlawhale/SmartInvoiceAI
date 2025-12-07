@@ -83,7 +83,6 @@ export function InvoicePreview({
       // A5 dimensions in mm: 148 x 210
       const pdf = new jsPDF("p", "mm", "a5");
       const pdfWidth = pdf.internal.pageSize.getWidth();
-      const pdfHeight = pdf.internal.pageSize.getHeight();
 
       // Calculate dimensions to fit width while maintaining aspect ratio
       const imgWidth = canvas.width;

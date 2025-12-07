@@ -113,7 +113,7 @@ export function ProductDialog({ onSuccess, initialName }: ProductDialogProps) {
             } else {
                 throw new Error("Failed to save product");
             }
-        } catch (error) {
+        } catch {
             toast({
                 title: "Error",
                 description: "Failed to save product",

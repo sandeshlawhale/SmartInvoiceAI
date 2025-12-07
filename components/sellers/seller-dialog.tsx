@@ -12,7 +12,6 @@ import {
     DialogTitle,
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
-import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 import { useToast } from "@/hooks/use-toast";
 import { Seller } from "@/types";
@@ -122,7 +121,7 @@ export function SellerDialog({ onSuccess }: SellerDialogProps) {
             } else {
                 throw new Error("Failed to save seller");
             }
-        } catch (error) {
+        } catch {
             toast({
                 title: "Error",
                 description: "Failed to save seller",

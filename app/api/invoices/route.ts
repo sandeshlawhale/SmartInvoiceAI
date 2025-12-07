@@ -14,7 +14,7 @@ interface InvoiceRequestBody {
   customerAddress?: string;
   status?: string;
   notes?: string;
-  items: any[];
+  items: { name: string; quantity: number; price: number; gst: number; total: number; hsnCode?: string }[];
   subtotal: number;
   totalGst: number;
   grandTotal: number;
@@ -34,7 +34,7 @@ export async function GET(request: NextRequest) {
     const status = searchParams.get("status");
     const limit = searchParams.get("limit");
 
-    const query: any = { userId: session.user.id };
+    const query: { userId: string; status?: string } = { userId: session.user.id };
     if (status) {
       query.status = status;
     }
@@ -48,10 +48,11 @@ export async function GET(request: NextRequest) {
     const invoices = await invoicesQuery;
 
     return NextResponse.json(invoices, { status: 200 });
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error("Get invoices error:", error);
+    const errorMessage = error instanceof Error ? error.message : "Internal server error";
     return NextResponse.json(
-      { error: error.message || "Internal server error" },
+      { error: errorMessage },
       { status: 500 }
     );
   }
@@ -118,10 +119,11 @@ export async function POST(request: NextRequest) {
     });
 
     return NextResponse.json(invoice, { status: 201 });
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error("Create invoice error:", error);
+    const errorMessage = error instanceof Error ? error.message : "Internal server error";
     return NextResponse.json(
-      { error: error.message || "Internal server error" },
+      { error: errorMessage },
       { status: 500 }
     );
   }

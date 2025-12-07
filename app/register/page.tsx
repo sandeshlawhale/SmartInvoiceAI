@@ -67,7 +67,7 @@ export default function RegisterPage() {
         });
         router.push("/login");
       }
-    } catch (error) {
+    } catch {
       toast({
         title: "Error",
         description: "An error occurred. Please try again.",

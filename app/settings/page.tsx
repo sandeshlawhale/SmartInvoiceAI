@@ -3,8 +3,6 @@
 import { useState, useEffect } from "react";
 import { DashboardLayout } from "@/components/layout/dashboard-layout";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { SellerDialog } from "@/components/sellers/seller-dialog";
 import { useModalStore } from "@/store/useModalStore";
@@ -67,7 +65,7 @@ export default function SettingsPage() {
       } else {
         throw new Error("Failed to delete seller");
       }
-    } catch (error) {
+    } catch {
       toast({
         title: "Error",
         description: "Failed to delete seller",
@@ -94,7 +92,7 @@ export default function SettingsPage() {
       } else {
         throw new Error("Failed to update default profile");
       }
-    } catch (error) {
+    } catch {
       toast({
         title: "Error",
         description: "Failed to update default profile",

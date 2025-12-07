@@ -98,7 +98,7 @@ export function CustomerDialog({ onSuccess, initialName }: CustomerDialogProps) 
             } else {
                 throw new Error("Failed to save customer");
             }
-        } catch (error) {
+        } catch {
             toast({
                 title: "Error",
                 description: "Failed to save customer",

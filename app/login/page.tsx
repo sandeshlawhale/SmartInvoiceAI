@@ -52,7 +52,7 @@ export default function LoginPage() {
         router.push("/dashboard");
         router.refresh();
       }
-    } catch (error) {
+    } catch {
       toast({
         title: "Error",
         description: "An error occurred. Please try again.",
@@ -101,7 +101,7 @@ export default function LoginPage() {
             </Button>
           </form>
           <div className="mt-4 text-center text-sm">
-            <span className="text-muted-foreground">Don't have an account? </span>
+            <span className="text-muted-foreground">Don&apos;t have an account? </span>
             <Link href="/register" className="text-primary hover:underline">
               Register
             </Link>

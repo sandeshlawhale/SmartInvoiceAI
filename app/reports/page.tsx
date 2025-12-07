@@ -21,8 +21,19 @@ import html2canvas from "html2canvas";
 import jsPDF from "jspdf";
 import { useToast } from "@/hooks/use-toast";
 
+interface DashboardStats {
+  monthlyChartData: { month: string; total: number }[];
+  gstSummary: {
+    totalSales: number;
+    totalGst: number;
+  };
+  totalInvoices: number;
+  totalSales: number;
+  monthlySales: number;
+}
+
 export default function ReportsPage() {
-  const [stats, setStats] = useState<any>(null);
+  const [stats, setStats] = useState<DashboardStats | null>(null);
   const [loading, setLoading] = useState(true);
   const reportRef = useRef<HTMLDivElement>(null);
   const { toast } = useToast();
@@ -58,7 +69,6 @@ export default function ReportsPage() {
 
       const pdf = new jsPDF("p", "mm", "a4");
       const pdfWidth = pdf.internal.pageSize.getWidth();
-      const pdfHeight = pdf.internal.pageSize.getHeight();
 
       const imgWidth = canvas.width;
       const imgHeight = canvas.height;
