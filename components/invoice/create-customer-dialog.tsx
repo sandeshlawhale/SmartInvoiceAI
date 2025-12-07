@@ -13,11 +13,12 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useToast } from "@/hooks/use-toast";
+import type { Customer } from "@/types";
 
 interface CreateCustomerDialogProps {
     open: boolean;
     onOpenChange: (open: boolean) => void;
-    onSuccess: (customer: any) => void;
+    onSuccess: (customer: Customer) => void;
     initialName?: string;
 }
 
@@ -84,7 +85,7 @@ export function CreateCustomerDialog({
             } else {
                 throw new Error("Failed to create customer");
             }
-        } catch (error) {
+        } catch {
             toast({
                 title: "Error",
                 description: "Failed to create customer",

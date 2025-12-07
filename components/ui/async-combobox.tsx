@@ -1,7 +1,7 @@
 "use client"
 
 import * as React from "react"
-import { Check, ChevronsUpDown, CloudCog, Plus } from "lucide-react"
+import { Check, ChevronsUpDown, Plus } from "lucide-react"
 
 import { cn } from "@/lib/utils"
 import { Button } from "@/components/ui/button"
@@ -22,7 +22,7 @@ import {
 export interface Option {
     value: string
     label: string
-    [key: string]: any
+    [key: string]: unknown
 }
 
 interface AsyncComboboxProps {
@@ -96,7 +96,7 @@ export function AsyncCombobox({
     // Initial fetch to populate list
     React.useEffect(() => {
         fetcher("").then(setOptions).catch(console.error)
-    }, [])
+    }, [fetcher])
 
 
     return (
@@ -146,7 +146,7 @@ export function AsyncCombobox({
                                         )}
                                     />
                                     {option.label}
-                                    {option.phone && ` - ${option.phone}`}
+                                    {option.phone ? ` - ${String(option.phone)}` : null}
                                 </CommandItem>
                             ))}
                         </CommandGroup>
@@ -162,7 +162,7 @@ export function AsyncCombobox({
                                     className="text-primary cursor-pointer"
                                 >
                                     <Plus className="mr-2 h-4 w-4" />
-                                    Add "{query}"
+                                    Add &quot;{query}&quot;
                                 </CommandItem>
                             </CommandGroup>
                         )}

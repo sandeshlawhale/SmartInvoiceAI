@@ -17,7 +17,7 @@ export async function GET(request: NextRequest) {
     const { searchParams } = new URL(request.url);
     const search = searchParams.get("search");
 
-    const query: any = { userId: session.user.id };
+    const query: { userId: string; $or?: Record<string, { $regex: string; $options: string }>[] } = { userId: session.user.id };
     if (search) {
       query.$or = [
         { name: { $regex: search, $options: "i" } },
@@ -31,10 +31,12 @@ export async function GET(request: NextRequest) {
     });
 
     return NextResponse.json(customers, { status: 200 });
-  } catch (error: any) {
+    return NextResponse.json(customers, { status: 200 });
+  } catch (error: unknown) {
     console.error("Get customers error:", error);
+    const errorMessage = error instanceof Error ? error.message : "Internal server error";
     return NextResponse.json(
-      { error: error.message || "Internal server error" },
+      { error: errorMessage },
       { status: 500 }
     );
   }
@@ -70,10 +72,12 @@ export async function POST(request: NextRequest) {
     });
 
     return NextResponse.json(customer, { status: 201 });
-  } catch (error: any) {
+    return NextResponse.json(customer, { status: 201 });
+  } catch (error: unknown) {
     console.error("Create customer error:", error);
+    const errorMessage = error instanceof Error ? error.message : "Internal server error";
     return NextResponse.json(
-      { error: error.message || "Internal server error" },
+      { error: errorMessage },
       { status: 500 }
     );
   }

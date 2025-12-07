@@ -27,10 +27,11 @@ export async function GET(
     }
 
     return NextResponse.json(invoice, { status: 200 });
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error("Get invoice error:", error);
+    const errorMessage = error instanceof Error ? error.message : "Internal server error";
     return NextResponse.json(
-      { error: error.message || "Internal server error" },
+      { error: errorMessage },
       { status: 500 }
     );
   }
@@ -70,7 +71,7 @@ export async function PUT(
     let totalGst = 0;
 
     if (items && items.length > 0) {
-      items.forEach((item: any) => {
+      items.forEach((item: { name: string; quantity: number; price: number; gst: number; total: number; hsnCode?: string }) => {
         const itemTotal = item.price * item.quantity;
         const itemGst = (itemTotal * item.gst) / 100;
         subtotal += itemTotal;
@@ -80,7 +81,23 @@ export async function PUT(
 
     const grandTotal = subtotal + totalGst;
 
-    const updateData: any = {
+    const updateData: {
+      invoiceNumber: string;
+      customerId?: string;
+      customerName: string;
+      customerEmail?: string;
+      customerPhone?: string;
+      customerAddress?: string;
+      customerGstin?: string;
+      invoiceDate?: Date;
+      dueDate?: Date;
+      status?: string;
+      notes?: string;
+      items?: { name: string; quantity: number; price: number; gst: number; total: number; hsnCode?: string }[];
+      subtotal?: number;
+      totalGst?: number;
+      grandTotal?: number;
+    } = {
       invoiceNumber,
       customerId,
       customerName,
@@ -95,7 +112,7 @@ export async function PUT(
     };
 
     if (items) {
-      updateData.items = items.map((item: any) => ({
+      updateData.items = items.map((item: { name: string; quantity: number; price: number; gst: number; total: number; hsnCode?: string }) => ({
         ...item,
         total: item.price * item.quantity + (item.price * item.quantity * item.gst) / 100,
       }));
@@ -115,10 +132,11 @@ export async function PUT(
     }
 
     return NextResponse.json(invoice, { status: 200 });
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error("Update invoice error:", error);
+    const errorMessage = error instanceof Error ? error.message : "Internal server error";
     return NextResponse.json(
-      { error: error.message || "Internal server error" },
+      { error: errorMessage },
       { status: 500 }
     );
   }
@@ -150,10 +168,11 @@ export async function DELETE(
       { message: "Invoice deleted successfully" },
       { status: 200 }
     );
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error("Delete invoice error:", error);
+    const errorMessage = error instanceof Error ? error.message : "Internal server error";
     return NextResponse.json(
-      { error: error.message || "Internal server error" },
+      { error: errorMessage },
       { status: 500 }
     );
   }

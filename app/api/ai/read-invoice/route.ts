@@ -96,10 +96,12 @@ Return ONLY valid JSON in this exact format:
     const parsedData = JSON.parse(responseText);
 
     return NextResponse.json(parsedData, { status: 200 });
-  } catch (error: any) {
+    return NextResponse.json(parsedData, { status: 200 });
+  } catch (error: unknown) {
     console.error("AI read-invoice error:", error);
+    const errorMessage = error instanceof Error ? error.message : "Internal server error";
     return NextResponse.json(
-      { error: error.message || "Internal server error" },
+      { error: errorMessage },
       { status: 500 }
     );
   }

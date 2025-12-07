@@ -27,10 +27,11 @@ export async function GET(
     }
 
     return NextResponse.json(seller, { status: 200 });
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error("Get seller error:", error);
+    const errorMessage = error instanceof Error ? error.message : "Internal server error";
     return NextResponse.json(
-      { error: error.message || "Internal server error" },
+      { error: errorMessage },
       { status: 500 }
     );
   }
@@ -101,10 +102,11 @@ export async function PUT(
     }
 
     return NextResponse.json(seller, { status: 200 });
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error("Update seller error:", error);
+    const errorMessage = error instanceof Error ? error.message : "Internal server error";
     return NextResponse.json(
-      { error: error.message || "Internal server error" },
+      { error: errorMessage },
       { status: 500 }
     );
   }
@@ -136,10 +138,11 @@ export async function DELETE(
       { message: "Seller deleted successfully" },
       { status: 200 }
     );
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error("Delete seller error:", error);
+    const errorMessage = error instanceof Error ? error.message : "Internal server error";
     return NextResponse.json(
-      { error: error.message || "Internal server error" },
+      { error: errorMessage },
       { status: 500 }
     );
   }

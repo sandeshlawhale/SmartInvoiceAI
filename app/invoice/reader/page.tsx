@@ -8,12 +8,36 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { useToast } from "@/hooks/use-toast";
 import { ScanLine, FileText } from "lucide-react";
+import type { Seller, InvoiceItem } from "@/types";
+
+interface InvoiceData {
+  invoice?: {
+    invoiceNumber?: string;
+    date?: string;
+    dueDate?: string;
+    notes?: string;
+  };
+  buyer?: {
+    name?: string;
+    email?: string;
+    phone?: string;
+    address?: string;
+    gstin?: string;
+  };
+  seller?: Seller;
+  products?: InvoiceItem[];
+  totals?: {
+    subtotal?: number;
+    totalGst?: number;
+    grandTotal?: number;
+  };
+}
 
 export default function InvoiceReaderPage() {
   const [file, setFile] = useState<File | null>(null);
   const [ocrText, setOcrText] = useState("");
   const [processing, setProcessing] = useState(false);
-  const [invoiceData, setInvoiceData] = useState<any>(null);
+  const [invoiceData, setInvoiceData] = useState<InvoiceData | null>(null);
   const { toast } = useToast();
 
   const handleFileSelect = (selectedFile: File) => {
@@ -67,7 +91,7 @@ export default function InvoiceReaderPage() {
         title: "Success",
         description: "Invoice processed successfully!",
       });
-    } catch (error) {
+    } catch {
       toast({
         title: "Error",
         description: "Failed to process invoice",
@@ -108,7 +132,7 @@ export default function InvoiceReaderPage() {
       } else {
         throw new Error("Failed to create invoice");
       }
-    } catch (error) {
+    } catch {
       toast({
         title: "Error",
         description: "Failed to create invoice",

@@ -2,7 +2,7 @@ import Link from "next/link";
 import { FOOTER_LINKS, SOCIAL_LINKS } from "@/constants/links";
 import { Mail, MapPin } from "lucide-react";
 
-const iconMap: { [key: string]: any } = {
+const iconMap: { [key: string]: React.ElementType } = {
     Mail,
     MapPin,
 };

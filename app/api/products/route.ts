@@ -17,7 +17,7 @@ export async function GET(request: NextRequest) {
     const { searchParams } = new URL(request.url);
     const search = searchParams.get("search");
 
-    let query: any = { userId: session.user.id };
+    const query: { userId: string; name?: { $regex: string; $options: string } } = { userId: session.user.id };
 
     if (search) {
       query.name = { $regex: search, $options: "i" };
@@ -28,10 +28,11 @@ export async function GET(request: NextRequest) {
     });
 
     return NextResponse.json(products, { status: 200 });
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error("Get products error:", error);
+    const errorMessage = error instanceof Error ? error.message : "Internal server error";
     return NextResponse.json(
-      { error: error.message || "Internal server error" },
+      { error: errorMessage },
       { status: 500 }
     );
   }
@@ -67,10 +68,11 @@ export async function POST(request: NextRequest) {
     });
 
     return NextResponse.json(product, { status: 201 });
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error("Create product error:", error);
+    const errorMessage = error instanceof Error ? error.message : "Internal server error";
     return NextResponse.json(
-      { error: error.message || "Internal server error" },
+      { error: errorMessage },
       { status: 500 }
     );
   }

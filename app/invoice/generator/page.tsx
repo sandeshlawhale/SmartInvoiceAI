@@ -70,6 +70,7 @@ function InvoiceGeneratorContent() {
     } else {
       generateInvoiceNumber();
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [invoiceId]);
 
   const fetchInvoiceDetails = async (id: string) => {
@@ -218,7 +219,7 @@ function InvoiceGeneratorContent() {
     ]);
   };
 
-  const updateItem = (index: number, field: keyof InvoiceItem, value: any) => {
+  const updateItem = (index: number, field: keyof InvoiceItem, value: string | number) => {
     const newItems = [...items];
     newItems[index] = { ...newItems[index], [field]: value };
 
@@ -336,7 +337,7 @@ function InvoiceGeneratorContent() {
       // Fill products
       if (data.products && data.products.length > 0) {
         setItems(
-          data.products.map((product: any) => ({
+          data.products.map((product: { name: string; quantity?: number; price?: number; gst?: number; hsnCode?: string }) => ({
             name: product.name,
             quantity: product.quantity || 1,
             price: product.price || 0,
@@ -360,7 +361,7 @@ function InvoiceGeneratorContent() {
         title: "Success",
         description: "Invoice form filled successfully!",
       });
-    } catch (error) {
+    } catch {
       toast({
         title: "Error",
         description: "Failed to process AI input",
@@ -438,7 +439,7 @@ function InvoiceGeneratorContent() {
       } else {
         throw new Error("Failed to save invoice");
       }
-    } catch (error) {
+    } catch {
       toast({
         title: "Error",
         description: "Failed to save invoice",

@@ -3,8 +3,6 @@
 import { useState, useEffect } from "react";
 import { DashboardLayout } from "@/components/layout/dashboard-layout";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
 import { CustomerDialog } from "@/components/customers/customer-dialog";
 import { useModalStore } from "@/store/useModalStore";
 import {
@@ -77,7 +75,7 @@ export default function CustomersPage() {
       } else {
         throw new Error("Failed to delete customer");
       }
-    } catch (error) {
+    } catch {
       toast({
         title: "Error",
         description: "Failed to delete customer",

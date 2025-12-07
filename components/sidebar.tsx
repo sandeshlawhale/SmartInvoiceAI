@@ -39,9 +39,16 @@ import { LogOut, ChevronUp, User as UserIcon } from "lucide-react";
 
 import { Card } from "@/components/ui/card";
 
+interface User {
+  name?: string | null;
+  email?: string | null;
+  image?: string | null;
+}
+
 export function Sidebar() {
   const pathname = usePathname();
   const { data: session } = useSession();
+  const user = session?.user as User | undefined;
 
   return (
     <div className="flex h-full w-64 flex-col gap-4 bg-transparent border-none">
@@ -78,7 +85,7 @@ export function Sidebar() {
             <Button variant="ghost" className="w-full justify-start px-2">
               <div className="flex items-center gap-2">
                 <Avatar className="h-8 w-8">
-                  <AvatarImage src={(session?.user as any)?.image || ""} />
+                  <AvatarImage src={user?.image || ""} />
                   <AvatarFallback>
                     {session?.user?.name?.charAt(0) || <UserIcon className="h-4 w-4" />}
                   </AvatarFallback>
