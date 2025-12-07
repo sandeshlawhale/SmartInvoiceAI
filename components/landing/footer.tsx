@@ -1,5 +1,11 @@
 import Link from "next/link";
-import { Github, Twitter, Linkedin } from "lucide-react";
+import { FOOTER_LINKS, SOCIAL_LINKS } from "@/constants/links";
+import { Mail, MapPin } from "lucide-react";
+
+const iconMap: { [key: string]: any } = {
+    Mail,
+    MapPin,
+};
 
 export function Footer() {
     return (
@@ -16,35 +22,62 @@ export function Footer() {
                             Create, track, and manage invoices effortlessly.
                         </p>
                         <div className="flex gap-4">
-                            <Link href="#" className="p-2 bg-background/10 rounded-full hover:bg-background/20 transition-colors">
-                                <Twitter className="w-5 h-5" />
-                            </Link>
-                            <Link href="#" className="p-2 bg-background/10 rounded-full hover:bg-background/20 transition-colors">
-                                <Github className="w-5 h-5" />
-                            </Link>
-                            <Link href="#" className="p-2 bg-background/10 rounded-full hover:bg-background/20 transition-colors">
-                                <Linkedin className="w-5 h-5" />
-                            </Link>
+                            {SOCIAL_LINKS.map((social) => {
+                                const Icon = social.icon;
+                                return (
+                                    <Link
+                                        key={social.name}
+                                        href={social.href}
+                                        className="p-2 bg-background/10 rounded-full hover:bg-background/20 transition-colors"
+                                    >
+                                        <Icon className="w-5 h-5" />
+                                    </Link>
+                                );
+                            })}
                         </div>
                     </div>
 
-                    <div className="grid grid-cols-2 gap-8">
+                    <div className="grid grid-cols-2 md:grid-cols-3 gap-8">
                         <div className="space-y-4">
                             <h4 className="font-semibold text-lg">Product</h4>
                             <ul className="space-y-2 text-muted-foreground">
-                                <li><Link href="#" className="hover:text-background transition-colors">Features</Link></li>
-                                <li><Link href="#" className="hover:text-background transition-colors">Pricing</Link></li>
-                                <li><Link href="#" className="hover:text-background transition-colors">API</Link></li>
-                                <li><Link href="#" className="hover:text-background transition-colors">Integration</Link></li>
+                                {FOOTER_LINKS.product.map((link) => (
+                                    <li key={link.name}>
+                                        <Link href={link.href} className="hover:text-background transition-colors">
+                                            {link.name}
+                                        </Link>
+                                    </li>
+                                ))}
                             </ul>
                         </div>
                         <div className="space-y-4">
                             <h4 className="font-semibold text-lg">Company</h4>
                             <ul className="space-y-2 text-muted-foreground">
-                                <li><Link href="#" className="hover:text-background transition-colors">About</Link></li>
-                                <li><Link href="#" className="hover:text-background transition-colors">Blog</Link></li>
-                                <li><Link href="#" className="hover:text-background transition-colors">Careers</Link></li>
-                                <li><Link href="#" className="hover:text-background transition-colors">Contact</Link></li>
+                                {FOOTER_LINKS.company.map((link) => (
+                                    <li key={link.name}>
+                                        <Link href={link.href} className="hover:text-background transition-colors">
+                                            {link.name}
+                                        </Link>
+                                    </li>
+                                ))}
+                            </ul>
+                        </div>
+                        <div className="space-y-4">
+                            <h4 className="font-semibold text-lg">Contact</h4>
+                            <ul className="space-y-4 text-muted-foreground">
+                                {FOOTER_LINKS.contact.map((item) => {
+                                    const Icon = iconMap[item.icon];
+                                    return (
+                                        <li key={item.name}>
+                                            <a href={item.href} className="flex gap-2 items-center hover:text-background transition-colors group">
+                                                <div>
+                                                    <Icon className="w-4 h-4" />
+                                                </div>
+                                                <span className="text-sm leading-relaxed">{item.name}</span>
+                                            </a>
+                                        </li>
+                                    );
+                                })}
                             </ul>
                         </div>
                     </div>
@@ -54,8 +87,15 @@ export function Footer() {
                     <div className="flex flex-col md:flex-row justify-between items-center text-sm text-muted-foreground">
                         <p>&copy; {new Date().getFullYear()} SmartInvoiceAi. All rights reserved.</p>
                         <div className="flex gap-6 mt-4 md:mt-0">
-                            <Link href="#" className="hover:text-background transition-colors">Privacy Policy</Link>
-                            <Link href="#" className="hover:text-background transition-colors">Terms of Service</Link>
+                            {FOOTER_LINKS.legal.map((link) => (
+                                <Link
+                                    key={link.name}
+                                    href={link.href}
+                                    className="hover:text-background transition-colors"
+                                >
+                                    {link.name}
+                                </Link>
+                            ))}
                         </div>
                     </div>
                 </div>
