@@ -5,6 +5,8 @@ import { connectDB } from "@/lib/db";
 import Invoice from "@/models/Invoice";
 import mongoose from "mongoose";
 
+export const dynamic = "force-dynamic";
+
 export async function GET() {
   try {
     const session = await getServerSession(authOptions);
