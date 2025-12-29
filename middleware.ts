@@ -4,7 +4,8 @@ import { withAuth } from "next-auth/middleware";
 
 export default withAuth({
   callbacks: {
-    authorized: ({ token }) => {
+    authorized: ({ req, token }) => {
+      console.log("Middleware Debug: All Cookies:", req.cookies.getAll().map(c => c.name));
       console.log("Middleware Debug: Token status:", token ? "Found" : "Missing");
       return !!token;
     },
