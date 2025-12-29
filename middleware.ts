@@ -6,11 +6,12 @@ export default withAuth({
   pages: {
     signIn: "/login",
   },
+  secret: process.env.NEXTAUTH_SECRET,
 });
 
 export const config = {
   matcher: [
-    // "/dashboard/:path*",
+    "/dashboard/:path*",
     "/invoice/:path*",
     "/products/:path*",
     "/customers/:path*",
