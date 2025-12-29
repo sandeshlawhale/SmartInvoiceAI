@@ -68,6 +68,9 @@ export const authOptions: NextAuthOptions = {
         token.email = user.email;
         token.name = user.name;
       }
+      // Debug: Check secret in Node Runtime
+      const secret = process.env.NEXTAUTH_SECRET;
+      console.log("Auth Debug (Node): Secret prefix:", secret ? secret.substring(0, 5) : "None", "Length:", secret?.length);
       return token;
     },
     async session({ session, token }) {

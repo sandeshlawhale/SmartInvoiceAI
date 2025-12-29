@@ -5,7 +5,7 @@ import type { NextRequest } from "next/server";
 export async function middleware(req: NextRequest) {
   // Debug: Check if Secret exists
   const secret = process.env.NEXTAUTH_SECRET;
-  console.log("Middleware Debug: Secret set?", !!secret, "Length:", secret?.length);
+  console.log("Middleware Debug (Edge): Secret prefix:", secret ? secret.substring(0, 5) : "None", "Length:", secret?.length);
 
   // Debug: Attempt to get token manually
   try {
